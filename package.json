@@ -4,7 +4,7 @@
   "description": "JSON schema validator",
   "repository": {
     "type": "git",
-    "url": "https://git.xiag.ch/git/stc/hotels-mys/availabilities"
+    "url": "https://github.com/Magomogo/json-schema-validator"
   },
   "main": "src/validator.js",
   "scripts": {
