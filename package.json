@@ -12,7 +12,7 @@
     "posttest": "jshint ./src ./tests"
   },
   "bin": {
-    "json-validate": "./scripts/json-validate"
+    "json-validate": "./scripts/json-validate.js"
   },
   "author": "",
   "license": "MIT",
