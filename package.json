@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "json-schema-validator",
   "version": "0.1.0",
   "description": "JSON schema validator",
   "repository": {
