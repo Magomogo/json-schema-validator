@@ -5,20 +5,35 @@
         formats = require('tv4-formats'),
         async = require('async'),
 
+        loadedReferences,
+
+        arrayDiff = function(a1, a2) {
+            return a1.filter(function(i) {return a2.indexOf(i) < 0;});
+        },
+
         addReferencedSchemas = function (tv4, loader, done) {
-            async.each(tv4.getMissingUris(), function (schemaUri, callback) {
+            var schemasTodo = function (tv4) {
+                return arrayDiff(tv4.getMissingUris(), loadedReferences);
+            };
+
+            async.each(schemasTodo(tv4), function (schemaUri, callback) {
+
+                if (loadedReferences.indexOf(schemaUri) !== -1) {
+                    callback();
+                    return;
+                }
+
                 loader(schemaUri, function (err, schema) {
-                    if (err) {
-                        callback(err);
-                    } else {
+                    loadedReferences.push(schemaUri);
+                    if (!err) {
                         tv4.addSchema(schema);
-                        callback();
                     }
+                    callback();
                 });
             }, function (err) {
                 if (err) {
                     done(err);
-                } else if (tv4.getMissingUris().length > 0) {
+                } else if (schemasTodo(tv4).length > 0) {
                     addReferencedSchemas(tv4, loader, done);
                 } else {
                     done();
@@ -30,6 +45,7 @@
             this.schemaUris = typeof schemaUris === 'object' ? schemaUris : [schemaUris];
             this.tv4 = tv4.freshApi();
             this.tv4.addFormat(formats);
+            loadedReferences = [];
         };
 
     Validator.prototype.fetchSchemas = function (loader, done) {

@@ -37,6 +37,25 @@
                 done();
             });
         });
+
+        it('tries to load referenced schemas only once ignoring errors', function (done) {
+            var schemaLoader = sinon.stub(),
+                swissHotelsValidator = new Validator('https://www.swiss-hotels.com/ota/schema');
+
+            schemaLoader.withArgs('https://www.swiss-hotels.com/ota/schema')
+                .yields(null, require('./data/ota-schema.json'));
+
+            schemaLoader.withArgs('https://www.swiss-hotels.com/schema')
+                .yields(null, require('./data/swiss-hotels-schema.json'));
+
+            schemaLoader.yields(null, {});
+
+            swissHotelsValidator.fetchSchemas(schemaLoader, function () {
+                sinon.assert.callCount(schemaLoader, 4);
+                done();
+            });
+
+        });
     });
 
 }());
