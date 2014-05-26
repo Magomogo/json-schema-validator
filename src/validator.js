@@ -26,7 +26,7 @@
                 loader(schemaUri, function (err, schema) {
                     loadedReferences.push(schemaUri);
                     if (!err) {
-                        tv4.addSchema(schema);
+                        tv4.addSchema(schemaUri, schema);
                     }
                     callback();
                 });
@@ -52,13 +52,19 @@
         var that = this;
 
         async.map(this.schemaUris, function (schemaUri, callback) {
-            loader(schemaUri, callback);
+            loader(schemaUri, function (err, schema) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, {uri: schemaUri, schema: schema});
+                }
+            });
         }, function (err, schemas) {
             if (err) {
                 done(err);
             } else {
-                schemas.map(function (schema) {
-                    that.tv4.addSchema(schema);
+                schemas.map(function (specs) {
+                    that.tv4.addSchema(specs.uri, specs.schema);
                 });
                 addReferencedSchemas(that.tv4, loader, done);
             }
@@ -66,6 +72,11 @@
     };
 
     Validator.prototype.validate = function (json, typeId) {
+
+        if (this.tv4.getSchema(typeId) === undefined) {
+            throw new Error (typeId + ' schema is not loaded');
+        }
+
         return this.tv4.validateResult(
             json,
             this.tv4.getSchema(typeId),
