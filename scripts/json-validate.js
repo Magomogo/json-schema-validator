@@ -18,42 +18,22 @@ Usage:\n\
         Validator = require('../src/validator.js'),
         typeId = process.argv[2],
 
-        initValidator = function (callback) {
-            var validator = new Validator(typeId);
-
-            validator.fetchSchemas(function (url, callback) {
-                request({
-                    url: url,
-                    strictSSL: false,
-                    json: true
-                }, function (error, response, body) {
-                    if (error) {
-                        callback(error);
-                        return;
-                    }
-
-                    if (200 !== response.statusCode) {
-                        callback({url: url, code: response.statusCode});
-                        return;
-                    }
-
-                    callback(null, body);
-                });
-            }, function () {
-                callback(null, validator);
-            });
-        },
         readStdin = function (callback) {
             var data = '';
+
             process.stdin.on('data', function (chunk) {
                 data += chunk;
             });
+
             process.stdin.on('end', function () {
                 callback(null, JSON.parse(data));
             });
         };
 
-    async.parallel({ validator: initValidator, json: readStdin }, function (err, results) {
+    async.parallel({
+        validator: function (callback) { Validator.simple(typeId, callback); },
+        json: readStdin
+    }, function (err, results) {
 
         if (err) {
             console.log('ERROR:', err);

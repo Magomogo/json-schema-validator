@@ -4,6 +4,7 @@
     var tv4 = require('tv4'),
         formats = require('tv4-formats'),
         async = require('async'),
+        request = require('request'),
 
         loadedReferences,
 
@@ -85,6 +86,39 @@
         );
     };
 
-    module.exports = Validator;
+    Validator.simple = function (schemaUris, callback) {
+        var schemaLoader = function (url, callback) {
+                request({
+                    url: url,
+                    strictSSL: false,
+                    json: true
+                }, function (error, response, body) {
+                    if (error) {
+                        callback(error);
+                        return;
+                    }
 
+                    if (200 !== response.statusCode) {
+                        callback({url: url, code: response.statusCode});
+                        return;
+                    }
+
+                    callback(null, body);
+                });
+            },
+
+            v = new Validator(schemaUris);
+
+        v.fetchSchemas(schemaLoader, function (err) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                callback(null, v);
+            }
+        });
+
+    };
+
+    module.exports = Validator;
 }());
