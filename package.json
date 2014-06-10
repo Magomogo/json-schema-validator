@@ -14,7 +14,7 @@
   "bin": {
     "json-validate": "./scripts/json-validate.js"
   },
-  "author": "",
+  "author": "Maxim Gnatenko <mgnatenko@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "tv4": "~1.0.18",

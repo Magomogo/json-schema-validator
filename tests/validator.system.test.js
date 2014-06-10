@@ -5,8 +5,9 @@
         Validator = require('../src/validator.js') ;
 
     describe('validator in the wild', function () {
+        this.timeout(10000);
+
         it('loads all referenced remote schemas', function (done) {
-            this.timeout(8000);
 
             Validator.simple(
                 'https://www.swiss-hotels.com/availabilities-filtered/schema',
