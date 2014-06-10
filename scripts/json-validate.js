@@ -7,7 +7,7 @@
         process.stdout.write('\n\
 This script validates JSON from stdin, using schema parameter\n\
 Usage:\n\
-> cat data.json | node index.js www.hostname/json-schema.json\n\
+> cat data.json | json-validate www.hostname/json-schema.json#/definitions/type\n\
 \n\
 ');
         process.exit(1);
