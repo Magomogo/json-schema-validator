@@ -1,6 +1,8 @@
 json-schema-validator
 =====================
 
+[![Build Status](https://travis-ci.org/Magomogo/json-schema-validator.svg)](https://travis-ci.org/Magomogo/json-schema-validator)
+
 This package uses https://www.npmjs.org/package/tv4 JSON Schema validator. It loads all reverenced JSON schemas over the internet to bootstrap tv4.
 
 ## Usage
