@@ -21,7 +21,7 @@ This package uses https://www.npmjs.org/package/tv4 JSON Schema validator. It lo
 
 ### CLI
 
-    echo '{json: "to validate"}' | json-validate http://some.type.id/
+    echo '{"json": "to validate"}' | json-validate http://some.type.id/
     
 ## API
 
