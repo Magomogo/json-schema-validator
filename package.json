@@ -1,6 +1,6 @@
 {
   "name": "json-schema-validator",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "JSON schema validator",
   "repository": {
     "type": "git",
