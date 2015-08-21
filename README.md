@@ -3,7 +3,9 @@ json-schema-validator
 
 [![Build Status](https://travis-ci.org/Magomogo/json-schema-validator.svg)](https://travis-ci.org/Magomogo/json-schema-validator)
 
-This package uses https://www.npmjs.org/package/tv4 JSON Schema validator. It loads all reverenced JSON schemas over the internet to bootstrap tv4.
+This package uses the [tv4](https://www.npmjs.org/package/tv4) JSON Schema validator, and the
+formats provided by the [tv4-formats](https://github.com/ikr/tv4-formats/). It loads all the referenced
+JSON schemas over the internet to bootstrap tv4.
 
 ## Usage
 
@@ -30,13 +32,15 @@ Constructor:
 
     v = new Validator(schemaUris);
     
-schemaUris: array of schema Uris to load (can be a string in the case of single Uri)
+schemaUris: array of schema Uris to load (can be a string in the case of single URI)
 
 --
 
     v.fetchSchemas(schemaLoader, callback)
   
-Load schemas over the net with `schemaLoader(url, callback)` and add to tv4 validator. All uris to be loaded: given in constructor and referenced by "$ref" clause in each loaded schema. Curcular references are gets resolved. 
+Load schemas over the net with `schemaLoader(url, callback)` and add to tv4 validator. All URI-s to
+be loaded: given in constructor and referenced by "$ref" clause in each loaded schema. Circular
+references are gets resolved.
 
 --
 
@@ -54,4 +58,4 @@ Possible type Ids are:
 
     Validator.simple(uris, callback)
     
-Just a shourtcut for getting validator bootstrapped using `request` as schema loader
+Just a shortcut for getting validator bootstrapped using `request` as schema loader

@@ -10,7 +10,7 @@
         it('loads all referenced remote schemas', function (done) {
 
             Validator.simple(
-                'https://www.swiss-hotels.com/availabilities-filtered/schema',
+                'https://www.swisshotels.com/availabilities-filtered/schema',
 
                 function (error) {
                     assert.ifError(error);
