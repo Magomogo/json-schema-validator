@@ -40,7 +40,7 @@ schemaUris: array of schema Uris to load (can be a string in the case of single 
   
 Load schemas over the net with `schemaLoader(url, callback)` and add to tv4 validator. All URI-s to
 be loaded: given in constructor and referenced by "$ref" clause in each loaded schema. Circular
-references are gets resolved.
+references get resolved.
 
 --
 
