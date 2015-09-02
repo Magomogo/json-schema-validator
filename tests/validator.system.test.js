@@ -5,7 +5,7 @@
         Validator = require('../src/validator.js') ;
 
     describe('validator in the wild', function () {
-        this.timeout(10000);
+        this.timeout(16000);
 
         it('loads all referenced remote schemas', function (done) {
 
