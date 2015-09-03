@@ -51,8 +51,11 @@ Do validation of `json` against schema defined by `typeId`
 Possible type Ids are:
 
 * http://json-schema.org/geo
-* http://some.site.somewhere/entry-schema#/definitions/diskUUID 
+* http://some.site.somewhere/entry-schema#/definitions/diskUUID
 
+`validate()` returns the tv4 validation
+[result object](https://github.com/geraintluff/tv4#usage-2-multi-threaded-validation). It will throw
+an `Error` if the schema for the passed `typeId` has not been loaded (fetched).
 
 --
 
