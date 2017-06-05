@@ -9,7 +9,7 @@
   "main": "src/validator.js",
   "scripts": {
     "test": "mocha ./tests",
-    "posttest": "jshint ./src ./tests"
+    "posttest": "jshint ./src ./tests ./scripts"
   },
   "bin": {
     "json-validate": "./scripts/json-validate.js"
