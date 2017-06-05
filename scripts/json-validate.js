@@ -17,6 +17,7 @@ Usage:\n\
         async = require('async'),
         Validator = require('../src/validator.js'),
         typeId = process.argv[2],
+        schemaFileUrl = typeId.split("#")[0],
 
         readStdin = function (callback) {
             var data = '';
@@ -31,7 +32,7 @@ Usage:\n\
         };
 
     async.parallel({
-        validator: function (callback) { Validator.simple(typeId, callback); },
+        validator: function (callback) { Validator.simple(schemaFileUrl, callback); },
         json: readStdin
     }, function (err, results) {
 
