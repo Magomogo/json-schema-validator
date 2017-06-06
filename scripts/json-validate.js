@@ -4,6 +4,7 @@
     'use strict';
 
     if (process.argv.length !== 3) {
+        /* jshint multistr:true */
         process.stdout.write('\n\
 This script validates JSON from stdin, using schema parameter\n\
 Usage:\n\
@@ -13,10 +14,10 @@ Usage:\n\
         process.exit(1);
     }
 
-    var request = require('request'),
-        async = require('async'),
+    var async = require('async'),
         Validator = require('../src/validator.js'),
         typeId = process.argv[2],
+        schemaFileUrl = typeId.split('#')[0],
 
         readStdin = function (callback) {
             var data = '';
@@ -31,10 +32,9 @@ Usage:\n\
         };
 
     async.parallel({
-        validator: function (callback) { Validator.simple(typeId, callback); },
+        validator: function (callback) { Validator.simple(schemaFileUrl, callback); },
         json: readStdin
     }, function (err, results) {
-
         if (err) {
             console.log('ERROR:', err);
         }
@@ -58,6 +58,5 @@ Usage:\n\
         ].join(' '));
 
         process.exit(1);
-
     });
 }());
