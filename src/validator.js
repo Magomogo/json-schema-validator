@@ -5,6 +5,7 @@
         formats = require('tv4-formats'),
         async = require('async'),
         request = require('request'),
+        fs = require('fs'),
 
         loadedReferences,
 
@@ -85,28 +86,60 @@
             true
         );
     };
+    
+    function resolveUri(uri, callback) {
+        if (typeof uri !== 'string') {
+            callback(new Error('Invalid uri: ' + uri + '. Must be a string.'));
+            return;
+        }
+        if (uri.startsWith('http://') || uri.startsWith('https://')) {
+            request({
+                url: uri,
+                strictSSL: false,
+                json: true
+            }, function (error, response, body) {
+                if (error) {
+                    callback(error);
+                    return;
+                }
+
+                if (200 !== response.statusCode) {
+                    callback({url: uri, code: response.statusCode});
+                    return;
+                }
+
+                callback(null, body);
+            });
+        }
+        else {
+            if (uri.startsWith('file://')) {
+                uri = uri.substr(7);
+            }
+            fs.readFile(uri, function(err, data) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+
+                data = data.toString();
+                try { data = JSON.parse(data); }
+                catch (err) {
+                    callback(err);
+                    return;
+                }
+
+                callback(null, data);
+            });
+        }
+    }
 
     Validator.simple = function (schemaUris, callback) {
-        var schemaLoader = function (url, callback) {
-                request({
-                    url: url,
-                    strictSSL: false,
-                    json: true
-                }, function (error, response, body) {
-                    if (error) {
-                        callback(error);
-                        return;
-                    }
+        if (schemaUris === null) {
+            callback(new Error('Invalid schema uri: ' + schemaUris + '. Must be a string or array of strings.'));
+            return;
+        }
 
-                    if (200 !== response.statusCode) {
-                        callback({url: url, code: response.statusCode});
-                        return;
-                    }
-
-                    callback(null, body);
-                });
-            },
-
+        var schemaLoader = resolveUri,
             v = new Validator(schemaUris);
 
         v.fetchSchemas(schemaLoader, function (err) {
