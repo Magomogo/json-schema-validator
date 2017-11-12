@@ -10,7 +10,7 @@
         it('loads all referenced remote schemas', function (done) {
 
             Validator.simple(
-                'https://www.swisshotels.com/availabilities-filtered/schema',
+                'http://json-schema.org/example/address.json',
 
                 function (error) {
                     assert.ifError(error);
