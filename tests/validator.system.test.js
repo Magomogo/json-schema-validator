@@ -61,8 +61,7 @@
                 assert.ifError(error);
 
                 assert(v.validate(
-                    {latitude: 53.0, longitude: 43.0},
-                    './tests/data/geo-schema.json'
+                    {latitude: 53.0, longitude: 43.0}
                 ).valid);
 
                 done();

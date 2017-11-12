@@ -75,13 +75,26 @@
 
     Validator.prototype.validate = function (json, typeId) {
 
-        if (this.tv4.getSchema(typeId) === undefined) {
+        var schema;
+        if (!typeId) {
+            var schemaMap = this.tv4.getSchemaMap();
+            var keys = Object.keys(schemaMap);
+            if (keys.length !== 1) {
+                throw new Error('Multiple schemas are defined. You must pass in the schema type id.');
+            }
+            typeId = keys[0];
+            schema = schemaMap[typeId];
+        }
+        else if (this.tv4.getSchema(typeId) === undefined) {
             throw new Error (typeId + ' schema is not loaded');
+        }
+        else {
+            schema = this.tv4.getSchema(typeId);
         }
 
         return this.tv4.validateResult(
             json,
-            this.tv4.getSchema(typeId),
+            schema,
             true,
             true
         );
